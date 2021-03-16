@@ -101,7 +101,7 @@ class UserTest < ActiveSupport::TestCase
     assert_not @user.valid?
   end
   
-  def password_and_password_confirmation_should_match 
+  def test_password_and_password_confirmation_should_match 
     @user.password = "a" * 8
     @user.password_confirmation = "a" * 8
     assert @user.valid?
@@ -110,5 +110,5 @@ class UserTest < ActiveSupport::TestCase
     @user.password_confirmation = "b" * 8
     assert_not @user.valid?
   end
-  
+
 end
