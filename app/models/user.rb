@@ -9,7 +9,9 @@ class User < ApplicationRecord
                     uniqueness: { case_sensitive: false }
   validates :first_name, presence: true, length: { maximum: 50 }                  
   validates :last_name, presence: true, length: { maximum: 50 }
-
+  validates :password, presence: true, confirmation: true, length: { minimum: 6 }
+  validates :password_confirmation, presence: true, on: :create
+  has_secure_password
 
   private
 
