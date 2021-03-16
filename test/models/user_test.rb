@@ -91,18 +91,24 @@ class UserTest < ActiveSupport::TestCase
 
   end
 
-  def test_user_should_not_be_saved_without_password
-    @user.password = nil
-    assert_not @user.save
-    assert_equal ["Password can't be blank"],
-                @user.errors.full_messages
+  def test_password_should_be_present 
+    @user.password = @user.password_confirmation = "a" * 6
+    assert @user.valid?
   end
 
-  def test_user_should_not_be_saved_without_password_confirmation
-    @user.password_confirmation = nil
-    assert_not @user.save
-    assert_equal ["Password confirmation can't be blank"],
-                  @user.errors.full_messages
+  def test_password_should_have_a_minimum_length 
+    @user.password = @user.password_confirmation = "a" * 5
+    assert_not @user.valid?
+  end
+  
+  def password_and_password_confirmation_should_match 
+    @user.password = "a" * 8
+    @user.password_confirmation = "a" * 8
+    assert @user.valid?
+    
+    @user.password = "a" * 8
+    @user.password_confirmation = "b" * 8
+    assert_not @user.valid?
   end
   
 end
