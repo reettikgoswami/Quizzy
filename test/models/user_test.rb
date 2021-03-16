@@ -5,7 +5,7 @@ require 'test_helper'
 class UserTest < ActiveSupport::TestCase
   
   def setup 
-    @user = User.new(first_name: "Sam", last_name: "Smith", email: "sam@example.com")
+    @user = User.new(first_name: "Sam", last_name: "Smith", email: "sam@example.com", password: 'welcome', password_confirmation: 'welcome')
   end
 
   def test_user_should_be_valid 
@@ -89,6 +89,20 @@ class UserTest < ActiveSupport::TestCase
       @new_user.role = "volunteer" 
     end
 
+  end
+
+  def test_user_should_not_be_saved_without_password
+    @user.password = nil
+    assert_not @user.save
+    assert_equal ["Password can't be blank"],
+                @user.errors.full_messages
+  end
+
+  def test_user_should_not_be_saved_without_password_confirmation
+    @user.password_confirmation = nil
+    assert_not @user.save
+    assert_equal ["Password confirmation can't be blank"],
+                  @user.errors.full_messages
   end
   
 end
