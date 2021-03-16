@@ -74,4 +74,21 @@ class UserTest < ActiveSupport::TestCase
     assert_not @another_user.valid?
   end
 
+  def test_user_should_have_a_valid_role 
+    @new_user = User.new(first_name: "Eve", last_name: "Smith", email: "Eve@example.com")
+    
+    assert @new_user.standard?
+    assert_not @new_user.administrator?
+    
+    @new_user.role = "administrator"
+    
+    assert @new_user.administrator?
+    assert_not @new_user.standard?
+
+    assert_raises ArgumentError do 
+      @new_user.role = "volunteer" 
+    end
+
+  end
+  
 end
