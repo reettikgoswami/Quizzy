@@ -1,18 +1,9 @@
 import React from "react";
-import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
-const App = () => {
-  return (
-    <Router>
-      <Switch>
-        <Route
-          exact
-          path="/"
-          render={() => <div className="bg-yellow-500">Home</div>}
-        />
-        <Route exact path="/about" render={() => <div>About</div>} />
-      </Switch>
-    </Router>
-  );
+
+import Main from "./components/Main";
+
+const App = props => {
+  return <Main {...props} />;
 };
 
 export default App;
