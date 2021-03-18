@@ -1,15 +1,40 @@
 import React, { useEffect, useState } from "react";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
-
 import { ToastContainer } from "react-toastify";
-import { registerIntercepts, setAuthHeaders } from "apis/axios";
+
+import { setAuthHeaders } from "apis/axios";
+import authenticationApi from "apis/authentication";
+import { initializeLogger } from "common/logger";
+import PrivateRoute from "components/common/PrivateRoute";
+import Login from "components/Authentication/Login";
+import Dashboard from "components/Dashboard";
+import Header from "components/Dashboard/Header";
 
 const Main = props => {
   const [loading, setLoading] = useState(true);
+  const [authenticated, setAuthenticated] = useState(false);
+  const [currentUser, setCurrentUser] = useState({});
+
+  const fetchCurrentUser = async () => {
+    try {
+      setLoading(true);
+      const response = await authenticationApi.currentUser();
+      setAuthenticated(true);
+      setCurrentUser(response.data.user);
+    } catch (error) {
+      logger.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const isLoggedIn = () => {
+    return authenticated;
+  };
 
   useEffect(() => {
-    registerIntercepts(authDispatch);
-    setAuthHeaders(setLoading);
+    initializeLogger();
+    setAuthHeaders();
+    fetchCurrentUser();
   }, []);
 
   if (loading) {
@@ -19,15 +44,29 @@ const Main = props => {
   return (
     <BrowserRouter>
       <ToastContainer />
+      <Header
+        {...props}
+        currentUser={currentUser}
+        authenticated={authenticated}
+      />
       <Switch>
-        <Route exact path="/login" component={Login} />
-        {/* {!isLoggedIn && <Route exact path="/" component={Hero} />}
+        <Route
+          exact
+          path="/login"
+          component={props => (
+            <Login
+              {...props}
+              setAuthenticated={setAuthenticated}
+              fetchCurrentUser={fetchCurrentUser}
+            />
+          )}
+        />
         <PrivateRoute
           path="/"
           redirectRoute="/login"
-          condition={isLoggedIn}
-          component={Dashboard}
-        /> */}
+          condition={authenticated}
+          component={() => <Dashboard {...props} />}
+        />
       </Switch>
     </BrowserRouter>
   );
