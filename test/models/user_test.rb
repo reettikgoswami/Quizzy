@@ -85,10 +85,14 @@ class UserTest < ActiveSupport::TestCase
     assert @new_user.administrator?
     assert_not @new_user.standard?
 
+  end
+
+  def test_user_should_not_have_an_invalid_role 
+    @new_user = User.new(first_name: "Eve", last_name: "Smith", email: "Eve@example.com")
+
     assert_raises ArgumentError do 
       @new_user.role = "volunteer" 
     end
-
   end
 
   def test_password_should_be_present 
