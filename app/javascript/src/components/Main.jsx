@@ -9,6 +9,7 @@ import PrivateRoute from "components/common/PrivateRoute";
 import Login from "components/Authentication/Login";
 import Dashboard from "components/Dashboard";
 import Header from "components/Dashboard/Header";
+import QuizForm from "components/Quiz/QuizForm";
 
 const Main = props => {
   const [loading, setLoading] = useState(true);
@@ -60,6 +61,12 @@ const Main = props => {
               fetchCurrentUser={fetchCurrentUser}
             />
           )}
+        />
+        <PrivateRoute
+          path="/dashboard/quizzes/new"
+          redirectRoute="/login"
+          condition={authenticated}
+          component={() => <QuizForm />}
         />
         <PrivateRoute
           path="/"
