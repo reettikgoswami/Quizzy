@@ -69,6 +69,12 @@ const Main = props => {
           component={() => <QuizForm />}
         />
         <PrivateRoute
+          path="/dashboard/quizzes/:id/edit"
+          redirectRoute="/login"
+          condition={authenticated}
+          component={() => <QuizForm editMode={true} />}
+        />
+        <PrivateRoute
           path="/"
           redirectRoute="/login"
           condition={authenticated}

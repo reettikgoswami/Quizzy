@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import Toastr from "common/Toastr";
 
 import quizApi from "apis/quiz";
 
 function QuizForm(props) {
-  const { history } = props;
   const [quizTitle, setQuizTitle] = useState("");
-
+  const [loading, setLoading] = useState(false);
+  const { history, editMode = false } = props;
+  const quizId = props.match.params.id;
+  const isValidQuizName = quizTitle.trim() ? true : false;
   const handleChange = e => {
     setQuizTitle(e.target.value);
   };
@@ -20,21 +22,56 @@ function QuizForm(props) {
     };
   };
 
+  const fetchQuizDetails = async () => {
+    try {
+      setLoading(true);
+      const response = await quizApi.show(quizId);
+      const { name } = response.data.quiz;
+      setQuizTitle(name);
+    } catch (error) {
+      if (error.response.status == 404) {
+        Toastr.error("Quiz not found");
+        history.push("/");
+      } else {
+        logger.error(error);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (editMode) {
+      fetchQuizDetails();
+    }
+  }, []);
+
   const handleSubmit = async event => {
     try {
-      if (quizTitle.trim()) {
-        const response = await quizApi.create(buildPayload(quizTitle));
-        Toastr.success("Quiz successfully created");
+      setLoading(true);
+      if (isValidQuizName) {
+        let response = null;
+        if (editMode) {
+          response = await quizApi.update(quizId, buildPayload(quizTitle));
+        } else {
+          response = await quizApi.create(buildPayload(quizTitle));
+        }
+        Toastr.success(response.data.success);
       } else {
         Toastr.error("Quiz name should not be empty.");
-        setQuizTitle("");
       }
       history.push("/");
     } catch (error) {
-      Toastr.error("Something went wrong");
+      Toastr.error(error.response.data.errors[0]);
       setQuizTitle("");
+    } finally {
+      setLoading(false);
     }
   };
+
+  if (loading) {
+    return <div>loading</div>;
+  }
 
   return (
     <div>
@@ -56,8 +93,11 @@ function QuizForm(props) {
         </div>
         <div className="mt-8">
           <button
-            className="uppercase text-sm font-bold tracking-wide bg-blue-500 text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:shadow-outline"
+            className={`uppercase text-sm font-bold tracking-wide bg-blue-500 text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:shadow-outline ${
+              isValidQuizName ? "bg-blue-500" : "opacity-50 cursor-not-allowed"
+            }`}
             onClick={handleSubmit}
+            disabled={isValidQuizName ? false : true}
           >
             submit
           </button>
