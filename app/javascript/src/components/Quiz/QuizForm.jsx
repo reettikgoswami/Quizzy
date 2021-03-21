@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { withRouter } from "react-router-dom";
 import Toastr from "common/Toastr";
 
 import quizApi from "apis/quiz";
 
 function QuizForm(props) {
+  const { history } = props;
   const [quizTitle, setQuizTitle] = useState("");
 
   const handleChange = e => {
@@ -27,6 +29,7 @@ function QuizForm(props) {
         Toastr.error("Quiz name should not be empty.");
         setQuizTitle("");
       }
+      history.push("/");
     } catch (error) {
       Toastr.error("Something went wrong");
       setQuizTitle("");
@@ -64,4 +67,4 @@ function QuizForm(props) {
   );
 }
 
-export default QuizForm;
+export default withRouter(QuizForm);

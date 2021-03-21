@@ -72,7 +72,7 @@ const Main = props => {
           path="/"
           redirectRoute="/login"
           condition={authenticated}
-          component={() => <Dashboard {...props} />}
+          component={props => <Dashboard {...props} />}
         />
       </Switch>
     </BrowserRouter>
