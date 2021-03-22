@@ -1,5 +1,7 @@
 class SessionsController < ApplicationController
 
+  skip_before_action :logged_in_user, only: [:create, :show]
+
   def create 
     @user = User.find_by(email: login_params[:email])
     if @user && @user.authenticate(login_params[:password]) 
