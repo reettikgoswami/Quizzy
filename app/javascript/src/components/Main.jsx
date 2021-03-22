@@ -10,6 +10,7 @@ import Login from "components/Authentication/Login";
 import Dashboard from "components/Dashboard";
 import Header from "components/Dashboard/Header";
 import QuizForm from "components/Quiz/QuizForm";
+import Quiz from "components/Quiz/Quiz";
 
 const Main = props => {
   const [loading, setLoading] = useState(true);
@@ -73,6 +74,12 @@ const Main = props => {
           redirectRoute="/login"
           condition={authenticated}
           component={() => <QuizForm editMode={true} />}
+        />
+        <PrivateRoute
+          path="/dashboard/quizzes/:id"
+          redirectRoute="/login"
+          condition={authenticated}
+          component={() => <Quiz />}
         />
         <PrivateRoute
           path="/"
