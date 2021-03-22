@@ -60,15 +60,15 @@ function BasicTable({
                       {...row.getRowProps()}
                       className="border-b border-gray-200 hover:bg-gray-100"
                     >
-                      <Link
-                        to={redirectUrl(row.original) || "#"}
-                        className="block"
-                      >
-                        {row.cells.map(cell => {
-                          return (
-                            <td
-                              {...cell.getCellProps()}
-                              className="py-3 px-6 text-left whitespace-nowrap"
+                      {row.cells.map(cell => {
+                        return (
+                          <td
+                            {...cell.getCellProps()}
+                            className="py-3 px-6 text-left whitespace-nowrap"
+                          >
+                            <Link
+                              to={redirectUrl(row.original) || "#"}
+                              className="block"
                             >
                               <div className="flex items-center">
                                 <div className="mr-2"></div>
@@ -76,10 +76,10 @@ function BasicTable({
                                   {cell.render("Cell")}
                                 </span>
                               </div>
-                            </td>
-                          );
-                        })}
-                      </Link>
+                            </Link>
+                          </td>
+                        );
+                      })}
                       {renderAdditionalRows(row.original)}
                     </tr>
                   );
