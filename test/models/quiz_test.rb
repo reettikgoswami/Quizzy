@@ -16,13 +16,14 @@ class QuizTest < ActiveSupport::TestCase
 
   def test_user_id_should_be_present 
     @quiz.user_id = nil
-    assert_not @quiz.valid?, "User can't be blank" 
+    assert_not @quiz.valid? 
+    assert_equal @quiz.errors.full_messages, ["User can't be blank"]
   end
 
   def test_quiz_name_should_be_present 
     @quiz.name = nil
-    assert_not @quiz.valid?, "Name can't be blank"
+    assert_not @quiz.valid?
+    assert_equal @quiz.errors.full_messages, ["Name can't be blank"]
   end
-
 
 end
