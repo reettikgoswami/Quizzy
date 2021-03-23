@@ -18,12 +18,6 @@ class OptionTest < ActiveSupport::TestCase
     assert @option.valid?
   end
 
-  def test_question_id_should_be_present 
-    @option.question_id = nil
-    assert_not @option.valid? 
-    assert_equal @option.errors.full_messages, ["Question can't be blank"]
-  end
-
   def test_value_should_be_present 
     @option.value = nil
     assert_not @option.valid?

@@ -19,7 +19,9 @@ const PrivateRoute = ({
       />
     );
   }
-  return <Route path={path} component={props => <Component {...props} />} />;
+  return (
+    <Route exact path={path} component={props => <Component {...props} />} />
+  );
 };
 
 PrivateRoute.propTypes = {

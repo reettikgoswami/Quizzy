@@ -3,6 +3,5 @@ class Option < ApplicationRecord
 
   validates :value, presence: true
   validates :is_correct, default: false
-  validates :question_id, presence: true
 
 end
