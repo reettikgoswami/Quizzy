@@ -1,5 +1,6 @@
-class QuizzesController < ApplicationController
-
+class QuizzesController < ApplicationController  
+  before_action :get_quiz, only: [:show, :update, :destroy]
+  
   def index 
     @quizzes = Quiz.order('created_at DESC')
     render status: :ok, json: { quizzes: @quizzes }
@@ -16,17 +17,17 @@ class QuizzesController < ApplicationController
   end
 
   def show 
-    @quiz = Quiz.find(params[:id]) 
-    
+    @questions = @quiz.questions
+    @question_with_options = @questions.map {|question| { options: question.options, question: question }} 
+
     if @quiz.present?
-      render status: :ok, json: { quiz: @quiz }
+      render status: :ok, json: { quiz: @quiz , questions: @question_with_options }
     else
       render :json => {:error => "not-found"}.to_json, :status => 404
     end
   end
 
   def update
-    @quiz = Quiz.find(params[:id])
     if @quiz.update(quiz_params)
       render status: :ok, json: { success: "Quiz updated successfully." }
     else
@@ -35,7 +36,6 @@ class QuizzesController < ApplicationController
   end
 
   def destroy
-    @quiz = Quiz.find(params[:id])
     if @quiz.destroy
       render status: :ok, json: { success: "Quiz deleted successfully" }
     else
@@ -44,6 +44,14 @@ class QuizzesController < ApplicationController
   end
 
   private 
+
+  def get_quiz 
+    @quiz = Quiz.find(params[:id])
+    unless @quiz.present?
+      render :json => {:error => "not-found"}.to_json, :status => 404
+    end 
+  end
+
 
   def quiz_params
     params.require(:quiz).permit(:name)
