@@ -5,8 +5,13 @@ module.exports = {
   },
   purge: [],
   theme: {
-    extend: {},
+    extend: {
+      inset: {
+        "-10": "-2.5rem",
+        4: "1rem",
+      },
+    },
   },
   variants: {},
   plugins: [],
-}
+};

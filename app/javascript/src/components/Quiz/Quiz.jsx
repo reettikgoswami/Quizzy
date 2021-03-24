@@ -7,7 +7,7 @@ import Toastr from "common/Toastr";
 function Quiz(props) {
   const [loading, setLoading] = useState(false);
   const [quiz, setQuiz] = useState({});
-  const { name = null } = quiz;
+  const { name = null, id } = quiz;
   const quizId = props.match.params.id;
 
   const fetchQuizDetails = async () => {
@@ -39,7 +39,7 @@ function Quiz(props) {
     <div className="w-4/5 mx-auto">
       <div className="flex items-center py-6 justify-between">
         <div className="text-2xl font-bold text-gray-700">{name}</div>
-        <Link to="#">
+        <Link to={`/dashboard/quizzes/${id}/questions`}>
           <button className="rounded bg-blue-500 hover:bg-blue-600 py-1 px-3 text-white">
             Add questions
           </button>
