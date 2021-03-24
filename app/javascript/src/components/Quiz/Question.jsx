@@ -36,7 +36,7 @@ function Question(props) {
 
         <div className="flex item-center justify-center absolute -right-10 top-2">
           <div className="w-4 mr-4 transform hover:text-purple-500 hover:scale-150 cursor-pointer ">
-            <Link to="#">
+            <Link to={`/dashboard/quizzes/${quiz_id}/questions/${id}/edit`}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"

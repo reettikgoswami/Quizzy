@@ -20,11 +20,8 @@ class QuizzesController < ApplicationController
     @questions = @quiz.questions
     @question_with_options = @questions.map {|question| { options: question.options, question: question }} 
 
-    if @quiz.present?
-      render status: :ok, json: { quiz: @quiz , questions: @question_with_options }
-    else
-      render :json => {:error => "not-found"}.to_json, :status => 404
-    end
+    render status: :ok, json: { quiz: @quiz , questions: @question_with_options }
+    
   end
 
   def update

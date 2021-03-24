@@ -1,5 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :get_quiz, only: [:create]
+  before_action :get_question, only: [:show, :update, :destroy]
 
   def create 
     @question = @quiz.questions.build(question_params)
@@ -10,17 +11,37 @@ class QuestionsController < ApplicationController
     end
   end
 
-  def destroy
-    @question = Question.find_by(id: params[:id])
-    if @question.destroy
-      render status: :ok, json: { success: "Quiz deleted successfully" }
+  def show
+    @options = @question.options 
+    render status: :ok, json: { question: @question , options: @options }
+  
+  end
+
+  def update 
+    if @question.update(question_params)
+      render status: :ok, json: { success: "Question updated successfully." }
     else
       render status: :unprocessable_entity, json: { errors: @quiz.errors.full_messages }
     end
   end
 
+  def destroy
+    if @question.destroy
+      render status: :ok, json: { success: "Question deleted successfully" }
+    else
+      render status: :unprocessable_entity, json: { errors: @question.errors.full_messages }
+    end
+  end
+
 
   private 
+
+  def get_question 
+    @question = Question.find_by(id:  params[:id])
+    unless @question.present?
+      render :json => {:error => "not-found"}.to_json, :status => 404
+    end 
+  end
 
   def get_quiz 
     @quiz = Quiz.find_by(id:  params[:quiz_id])
@@ -30,6 +51,6 @@ class QuestionsController < ApplicationController
   end
 
   def question_params 
-    params.require(:question).permit(:description, options_attributes: [:value, :is_correct])
+    params.require(:question).permit(:description, options_attributes: [:id, :value, :is_correct, :_destroy])
   end
 end

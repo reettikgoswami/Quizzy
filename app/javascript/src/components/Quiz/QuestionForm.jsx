@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-key */
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 
 import Toastr from "common/Toastr";
@@ -9,9 +9,46 @@ function QuestionForm(props) {
   const [loading, setLoading] = useState(false);
   const [questionDescription, setQuestionDescription] = useState("");
   const [options, setOptions] = useState([{ value: "" }, { value: "" }]);
+  const [removedOptions, setRemovedOptions] = useState([]);
   const [correctAnswer, setCorrectAnswer] = useState("");
-  const { history } = props;
-  const quizId = props.match.params.quiz_id;
+  const { history, editMode = false } = props;
+  const { quiz_id: quizId, id } = props.match.params;
+
+  const loadStateWithQuestionDetail = (question, options) => {
+    setQuestionDescription(question.description);
+    setOptions(options);
+    for (let i = 0; i < options.length; i++) {
+      if (options[i].is_correct) {
+        setCorrectAnswer(i + 1);
+        return;
+      }
+    }
+  };
+
+  const fetchQuestionDetails = async () => {
+    const id = props.match.params.id;
+    try {
+      setLoading(true);
+      const response = await questionApi.show(id, quizId);
+      const { question, options } = response.data;
+      loadStateWithQuestionDetail(question, options);
+    } catch (error) {
+      if (error.response.status == 404) {
+        Toastr.error("Question not found");
+        history.push("/");
+      } else {
+        logger.error(error);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (editMode) {
+      fetchQuestionDetails();
+    }
+  }, []);
 
   const handleAddOptions = () => {
     const newOption = { value: "" };
@@ -38,10 +75,14 @@ function QuestionForm(props) {
   };
 
   const buildPayload = (description, options, correctAnswer) => {
-    const options_attributes = options.map((option, index) => ({
-      value: option.value,
+    let options_attributes = options.map((option, index) => ({
+      ...option,
       is_correct: index == correctAnswer - 1,
     }));
+
+    if (editMode) {
+      options_attributes = options_attributes.concat(removedOptions);
+    }
 
     const payload = {
       question: { description, options_attributes },
@@ -50,10 +91,15 @@ function QuestionForm(props) {
   };
 
   const handelRemoveOptions = optionIndex => {
+    const deletedOption = [];
     const newOptionsValue = options.filter((option, index) => {
+      if (editMode && option.id && index == optionIndex) {
+        deletedOption.push({ ...option, _destroy: true });
+      }
       return index !== optionIndex;
     });
     setOptions(newOptionsValue);
+    setRemovedOptions(removedOptions.concat(deletedOption));
     setCorrectAnswer("");
   };
 
@@ -63,7 +109,9 @@ function QuestionForm(props) {
 
   const handleChangeOptionValue = (event, optionIndex) => {
     const newOptionsValue = options.map((option, index) => {
-      return index === optionIndex ? { value: event.target.value } : option;
+      return index === optionIndex
+        ? { ...option, value: event.target.value }
+        : option;
     });
     setOptions(newOptionsValue);
   };
@@ -71,14 +119,23 @@ function QuestionForm(props) {
   const handleSubmit = async () => {
     try {
       setLoading(true);
-      if (isValidQuestion()) {
-        const response = await questionApi.create(
+      if (!isValidQuestion()) return;
+
+      let response = null;
+      if (editMode) {
+        response = await questionApi.update(
+          id,
           quizId,
           buildPayload(questionDescription, options, correctAnswer)
         );
-        Toastr.success(response.data.success);
-        history.push(`/dashboard/quizzes/${quizId}`);
+      } else {
+        response = await questionApi.create(
+          quizId,
+          buildPayload(questionDescription, options, correctAnswer)
+        );
       }
+      Toastr.success(response.data.success);
+      history.push(`/dashboard/quizzes/${quizId}`);
     } catch (error) {
       Toastr.error(error.response.data.errors[0]);
     } finally {
