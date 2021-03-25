@@ -5,5 +5,4 @@ class Question < ApplicationRecord
   validates :description, presence: true
   validates :quiz_id, presence: true
   accepts_nested_attributes_for :options, allow_destroy: true
-  
 end
