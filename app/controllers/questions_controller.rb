@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-  before_action :get_quiz, only: [:create]
+  before_action :get_quiz, only: [:create, :destroy]
   before_action :get_question, only: [:show, :update, :destroy]
 
   def create 
@@ -27,6 +27,10 @@ class QuestionsController < ApplicationController
 
   def destroy
     if @question.destroy
+      if @quiz.questions.empty?
+        @quiz.unpublish
+        @quiz.save 
+      end
       render status: :ok, json: { success: "Question deleted successfully" }
     else
       render status: :unprocessable_entity, json: { errors: @question.errors.full_messages }

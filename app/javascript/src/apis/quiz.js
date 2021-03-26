@@ -10,12 +10,15 @@ const update = (id, payload) => axios.put(`/quizzes/${id}`, payload);
 
 const destroy = id => axios.delete(`/quizzes/${id}`);
 
+const publishQuiz = quizId => axios.post(`/quizzes/${quizId}/publishes`);
+
 const quizApi = {
   list,
   create,
   show,
   destroy,
   update,
+  publishQuiz,
 };
 
 export default quizApi;

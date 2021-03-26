@@ -30,6 +30,24 @@ function Quiz(props) {
     }
   };
 
+  const handlePublishQuiz = async () => {
+    try {
+      setLoading(true);
+      const response = await quizApi.publishQuiz(quizId);
+      setQuiz(response.data.quiz);
+      Toastr.success(response.data.success);
+    } catch (error) {
+      if (error.response.status == 404) {
+        Toastr.error("Quiz not found");
+        props.history.push("/");
+      } else {
+        logger.error(error);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchQuizDetails();
   }, []);
@@ -49,18 +67,30 @@ function Quiz(props) {
                 Add questions
               </button>
             </Link>
-            {questions.length >= 1 ? (
-              <Link to="#">
-                <button className="rounded bg-blue-500 hover:bg-blue-600 py-1 px-3 text-white ml-2">
-                  Publish
-                </button>
-              </Link>
+            {!quiz.is_published && questions.length >= 1 ? (
+              <button
+                className="rounded bg-blue-500 hover:bg-blue-600 py-1 px-3 text-white ml-2"
+                onClick={handlePublishQuiz}
+              >
+                Publish
+              </button>
             ) : (
               <Fragment />
             )}
           </div>
         </div>
       </div>
+      {quiz.is_published ? (
+        <div className="font-serif font-bold w-4/5 mx-auto">
+          ✅ Published, your public link is -
+          <a href={`/public/${quiz.slug}`} className="text-blue-600 italic ">
+            {`${window.location.origin}/public/${quiz.slug}`}
+          </a>
+        </div>
+      ) : (
+        <Fragment />
+      )}
+
       {questions.map(({ options, question }) => (
         <Question options={options} question={question} key={question.id} />
       ))}
