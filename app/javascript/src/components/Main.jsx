@@ -12,6 +12,7 @@ import Header from "components/Dashboard/Header";
 import QuizForm from "components/Quiz/QuizForm";
 import Quiz from "components/Quiz/Quiz";
 import QuestionForm from "components/Quiz/QuestionForm";
+import AttemptQuiz from "components/Attempts";
 
 const Main = props => {
   const [loading, setLoading] = useState(true);
@@ -55,6 +56,11 @@ const Main = props => {
       <Switch>
         <Route
           exact
+          path="/public/:slug/attempt/new"
+          component={props => <AttemptQuiz />}
+        />
+        <Route
+          exact
           path="/login"
           component={props => (
             <Login
@@ -64,6 +70,8 @@ const Main = props => {
             />
           )}
         />
+
+        {/* <Route exact /> */}
         <PrivateRoute
           path="/dashboard/quizzes/new"
           redirectRoute="/login"

@@ -6,7 +6,7 @@ import quizApi from "apis/quiz";
 import alertbox from "components/utils/alertbox";
 
 const ActionButtons = quiz => {
-  const { id } = quiz;
+  const { id, is_published } = quiz;
 
   const quizDeleteAction = async id => {
     try {
@@ -30,16 +30,18 @@ const ActionButtons = quiz => {
       Toastr.error(error.response.data.errors[0]);
     }
   };
-
   return (
     <Fragment>
       <td className="py-3 px-6 text-center">
-        <span className="bg-red-200 text-red-600 py-1 px-3 rounded-full text-xs">
-          Not Published
-        </span>
-        {/* <span className="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs">
-          Published
-        </span> */}
+        {is_published ? (
+          <span className="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs">
+            Published
+          </span>
+        ) : (
+          <span className="bg-red-200 text-red-600 py-1 px-3 rounded-full text-xs">
+            Not Published
+          </span>
+        )}
       </td>
       <td className="py-3 px-6 text-center">
         <div className="flex item-center justify-center">
