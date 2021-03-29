@@ -4,6 +4,8 @@ class Quiz < ApplicationRecord
   has_many :questions, dependent: :destroy
   belongs_to :user 
 
+  default_scope -> { order(created_at: :desc) }
+  
   validates :name, presence: true  
   validates :user_id , presence: true 
   validates :slug, presence: true, uniqueness: true 
