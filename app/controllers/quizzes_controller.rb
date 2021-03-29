@@ -2,7 +2,7 @@ class QuizzesController < ApplicationController
   before_action :get_quiz, only: [:show, :update, :destroy]
   
   def index 
-    @quizzes = Quiz.order('created_at DESC')
+    @quizzes = Quiz.all
     render status: :ok, json: { quizzes: @quizzes }
   end
 
@@ -43,7 +43,7 @@ class QuizzesController < ApplicationController
   private 
 
   def get_quiz 
-    @quiz = Quiz.find(params[:id])
+    @quiz = Quiz.find_by(id: params[:id])
     unless @quiz.present?
       render :json => {:error => "not-found"}.to_json, :status => 404
     end 
