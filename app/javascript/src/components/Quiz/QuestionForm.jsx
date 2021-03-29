@@ -210,7 +210,7 @@ function QuestionForm(props) {
             value={`${correctAnswer}`}
             onChange={e => handelSetCorrectAnswer(e)}
           >
-            <option value="">Currect answer</option>
+            <option value="">Correct answer</option>
 
             {options.map((option, index) => (
               <option value={index + 1}> {`Option ${index + 1}`}</option>
