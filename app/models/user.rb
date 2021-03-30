@@ -15,10 +15,19 @@ class User < ApplicationRecord
   validates :password_confirmation, presence: true, on: :create
   
   before_save :downcase_email
+  before_validation :generate_password
   
   has_secure_password
 
   private
+
+  def generate_password
+    if role == "standard"
+      newPassword = SecureRandom.urlsafe_base64
+      self.password = newPassword
+      self.password_confirmation = newPassword
+    end
+  end
 
   def downcase_email 
     self.email = email.downcase 
