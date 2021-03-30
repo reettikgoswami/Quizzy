@@ -14,7 +14,6 @@ function Attempts(props) {
   const [isValidUrl, setIsValidUrl] = useState(false);
   const [user, setUser] = useState({});
   const [attemptObject, setAttemptObject] = useState({});
-  // const [quiz, setQuiz] = useState({});
   const [pageNo, setPageNo] = useState(1);
 
   const slug = props.match.params.slug;
@@ -73,12 +72,11 @@ function Attempts(props) {
         <AttemptQuiz
           slug={slug}
           MoveToNextPage={MoveToNextPage}
-          user={user}
           attemptObject={attemptObject}
         />
       );
     case 3:
-      return <Result />;
+      return <Result slug={slug} attemptObject={attemptObject} />;
     default:
       break;
   }

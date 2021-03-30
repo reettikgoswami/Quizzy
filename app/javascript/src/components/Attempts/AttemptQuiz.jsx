@@ -11,8 +11,8 @@ function AttemptQuiz(props) {
   const [questions, setQuestions] = useState([]);
   const [selectedOptions, setSelectedOptions] = useState({});
 
-  const { name = null, id: quizId } = quiz;
-  const { MoveToNextPage, user, attemptObject, slug } = props;
+  const { name = null } = quiz;
+  const { MoveToNextPage, attemptObject, slug } = props;
   const { id } = attemptObject;
 
   const handelSelectOption = (questionId, optionId) => {

@@ -1,6 +1,6 @@
 class AttemptsController < ApplicationController
   skip_before_action :logged_in_user 
-  before_action :get_quiz, only: [:index, :create, :new]
+  before_action :get_quiz, only: [:index, :create, :new, :show]
   before_action :get_user, only: [:create]
 
   def index 
@@ -44,11 +44,18 @@ class AttemptsController < ApplicationController
     @attempt_answers = AttemptAnswer.create(attempt_param[:attempt])
     @attempt = Attempt.find_by(id: params[:id])
     @attempt.update(submitted: true)
-    render status: :ok, json: { success: "Answers successfully submitted", attempt: @attempt_answers , update: @attempt}
+    render status: :ok, json: { success: "Answers successfully submitted", }
   end
 
   def show 
-  
+    @attempt = Attempt.find_by(id: params[:id])
+    @attempted_answer = @attempt.attempt_answers
+    @questions = @quiz.questions
+    @question_with_options = @questions.map do |question| 
+      { options: question.options,
+        question: question }
+    end 
+    render status: :ok, json: { attempted_answer: @attempted_answer, questions: @question_with_options, quiz: @quiz}
   end
 
 
