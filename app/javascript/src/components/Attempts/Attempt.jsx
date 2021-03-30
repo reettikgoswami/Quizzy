@@ -35,8 +35,12 @@ function Attempts(props) {
     }
   };
 
-  const MoveToNextPage = () => {
-    setPageNo(pageNo + 1);
+  const MoveToNextPage = (moveToPage = null) => {
+    if (moveToPage) {
+      setPageNo(moveToPage);
+    } else {
+      setPageNo(pageNo + 1);
+    }
   };
 
   useEffect(() => {
@@ -58,8 +62,8 @@ function Attempts(props) {
     case 1:
       return (
         <UserForm
-          MoveToNextPage={MoveToNextPage}
           slug={slug}
+          MoveToNextPage={MoveToNextPage}
           setAttemptObject={setAttemptObject}
           setUser={setUser}
         />
@@ -67,6 +71,7 @@ function Attempts(props) {
     case 2:
       return (
         <AttemptQuiz
+          slug={slug}
           MoveToNextPage={MoveToNextPage}
           user={user}
           attemptObject={attemptObject}

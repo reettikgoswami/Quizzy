@@ -47,8 +47,11 @@ function UserForm(props) {
       const response = await attemptApi.createUser(slug, buildUserPayload());
       setUser(response.data.user);
       setAttemptObject(response.data.attempt);
-      // setQuiz(response.data.quiz);
-      MoveToNextPage();
+      if (response.data.attempt.submitted) {
+        MoveToNextPage(3);
+      } else {
+        MoveToNextPage();
+      }
     } catch (error) {
       logger.error(error);
     } finally {

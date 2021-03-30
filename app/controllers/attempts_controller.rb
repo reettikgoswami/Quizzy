@@ -1,6 +1,6 @@
 class AttemptsController < ApplicationController
   skip_before_action :logged_in_user 
-  before_action :get_quiz, only: [:index, :create]
+  before_action :get_quiz, only: [:index, :create, :new]
   before_action :get_user, only: [:create]
 
   def index 
@@ -25,11 +25,26 @@ class AttemptsController < ApplicationController
       render status: :unprocessable_entity, json: { errors: "Something went wrong" }
     end
 
-    render status: :ok, json: { success: "User created successfully!" , user: @user, attempt: @attempt }
-  
+    render status: :ok, json: { success: "User created successfully!",
+                                user: @user.attributes.except("password_digest"),
+                                attempt: @attempt }  
   end
 
   def new 
+    @questions = @quiz.questions
+    @question_with_options = @questions.map do |question| 
+      { options: question.options.map {|option| option.attributes.except("is_correct") },
+        question: question }
+    end 
+
+    render status: :ok, json: { quiz: @quiz, questions: @question_with_options }
+  end
+
+  def update 
+    @attempt_answers = AttemptAnswer.create(attempt_param[:attempt])
+    @attempt = Attempt.find_by(id: params[:id])
+    @attempt.update(submitted: true)
+    render status: :ok, json: { success: "Answers successfully submitted", attempt: @attempt_answers , update: @attempt}
   end
 
   def show 
@@ -51,5 +66,8 @@ class AttemptsController < ApplicationController
    params.require(:user).permit(:first_name, :last_name, :email)
   end
 
+  def attempt_param
+    params.permit( attempt: [:attempt_id,:option_id, :question_id])
+  end
 
 end
