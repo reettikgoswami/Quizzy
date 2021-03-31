@@ -4,6 +4,7 @@ import attemptApi from "apis/attempt";
 function Result(props) {
   const [loading, setLoading] = useState(false);
   const [quiz, setQuiz] = useState({});
+  const [attempt, setAttempt] = useState({});
   const [quizResult, setQuizResult] = useState([]);
 
   const { name = null } = quiz;
@@ -36,6 +37,7 @@ function Result(props) {
         response.data.questions
       );
       setQuiz(response.data.quiz);
+      setAttempt(response.data.attempt);
     } catch (error) {
       logger.error(error);
     } finally {
@@ -74,8 +76,19 @@ function Result(props) {
 
   return (
     <div className="w-4/5 mx-auto">
-      <div className="text-2xl text-center py-6 font-bold text-gray-700">
+      <div className="text-3xl text-center py-5 font-bold text-gray-700 font-serif">
         {name}
+      </div>
+      <div className="text-center font-medium font-serif text-lg">
+        Thanks you for taking the quiz, here are your results You have submitted
+        <span className="text-xl text-green-700">
+          {attempt.correct_answer_count}
+        </span>
+        correct and
+        <span className="text-xl text-red-700">
+          {attempt.incorrect_answer_count}
+        </span>
+        incorrect answers.
       </div>
 
       {quizResult.map(({ question, options }, index) => (
