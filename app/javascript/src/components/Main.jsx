@@ -13,6 +13,7 @@ import QuizForm from "components/Quiz/QuizForm";
 import Quiz from "components/Quiz/Quiz";
 import QuestionForm from "components/Quiz/QuestionForm";
 import AttemptQuiz from "components/Attempts/Attempt";
+import Report from "components/Report";
 
 const Main = props => {
   const [loading, setLoading] = useState(true);
@@ -71,7 +72,13 @@ const Main = props => {
           )}
         />
 
-        {/* <Route exact /> */}
+        <PrivateRoute
+          path="/report"
+          redirectRoute="/login"
+          condition={authenticated}
+          component={() => <Report />}
+        />
+
         <PrivateRoute
           path="/dashboard/quizzes/new"
           redirectRoute="/login"
