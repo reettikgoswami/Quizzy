@@ -6,7 +6,7 @@ import quizApi from "apis/quiz";
 import alertbox from "components/utils/alertbox";
 
 const ActionButtons = quiz => {
-  const { id, is_published } = quiz;
+  const { id, slug } = quiz;
 
   const quizDeleteAction = async id => {
     try {
@@ -33,7 +33,7 @@ const ActionButtons = quiz => {
   return (
     <Fragment>
       <td className="py-3 px-6 text-center">
-        {is_published ? (
+        {slug ? (
           <span className="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs">
             Published
           </span>

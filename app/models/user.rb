@@ -2,6 +2,8 @@
 
 class User < ApplicationRecord
   has_many :quizzes, dependent: :destroy
+  has_many :attempts, dependent: :destroy
+  has_many :attempt_answers, dependent: :destroy
 
   VALID_EMAIL_REGEX = /\A([\w+\-].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
   

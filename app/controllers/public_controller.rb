@@ -3,7 +3,7 @@ class PublicController < ApplicationController
 
   def show 
     @quiz = Quiz.find_by(slug: params[:slug])
-    if @quiz.present? && @quiz.is_published
+    if @quiz.present?
       redirect_to root_url + "public/" + params[:slug] + "/attempt/new"
     else 
       render status: :forbidden, json: { error: "Quiz not published!"}

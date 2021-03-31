@@ -9,7 +9,7 @@ function Quiz(props) {
   const [loading, setLoading] = useState(false);
   const [quiz, setQuiz] = useState({});
   const [questions, setQuestions] = useState([]);
-  const { name = null, id } = quiz;
+  const { name = null, id, slug } = quiz;
   const quizId = props.match.params.id;
 
   const fetchQuizDetails = async () => {
@@ -67,7 +67,7 @@ function Quiz(props) {
                 Add questions
               </button>
             </Link>
-            {!quiz.is_published && questions.length >= 1 ? (
+            {!quiz.slug && questions.length >= 1 ? (
               <button
                 className="rounded bg-blue-500 hover:bg-blue-600 py-1 px-3 text-white ml-2"
                 onClick={handlePublishQuiz}
@@ -80,10 +80,10 @@ function Quiz(props) {
           </div>
         </div>
       </div>
-      {quiz.is_published ? (
+      {slug ? (
         <div className="font-serif font-bold w-4/5 mx-auto">
           ✅ Published, your public link is -
-          <a href={`/public/${quiz.slug}`} className="text-blue-600 italic ">
+          <a href={`/public/${slug}`} className="text-blue-600 italic ">
             {`${window.location.origin}/public/${quiz.slug}`}
           </a>
         </div>
