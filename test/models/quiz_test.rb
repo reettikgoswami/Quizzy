@@ -5,7 +5,7 @@ require 'test_helper'
 class QuizTest < ActiveSupport::TestCase
   
   def setup 
-    @user = User.new(first_name: "sam", last_name: "Smith", email: "samsmith@example.com", password: 'welcome', password_confirmation: 'welcome')
+    @user = User.new(first_name: "sam", last_name: "Smith", email: "samsmith@example.com", password: 'welcome', password_confirmation: 'welcome',role: "administrator")
     @user.save
     @quiz = @user.quizzes.build(name: "History Quiz")
   end

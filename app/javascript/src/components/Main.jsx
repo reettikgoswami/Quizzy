@@ -12,7 +12,7 @@ import Header from "components/Dashboard/Header";
 import QuizForm from "components/Quiz/QuizForm";
 import Quiz from "components/Quiz/Quiz";
 import QuestionForm from "components/Quiz/QuestionForm";
-import AttemptQuiz from "components/Attempts";
+import AttemptQuiz from "components/Attempts/Attempt";
 
 const Main = props => {
   const [loading, setLoading] = useState(true);
