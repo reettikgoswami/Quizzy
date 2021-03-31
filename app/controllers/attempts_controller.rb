@@ -44,6 +44,8 @@ class AttemptsController < ApplicationController
     @attempt_answers = AttemptAnswer.create(attempt_param[:attempt])
     @attempt = Attempt.find_by(id: params[:id])
     @attempt.update(submitted: true)
+    @attempt.store_correct_and_incorrect_answers_count 
+    @attempt.save
     render status: :ok, json: { success: "Answers successfully submitted", }
   end
 
@@ -55,7 +57,7 @@ class AttemptsController < ApplicationController
       { options: question.options,
         question: question }
     end 
-    render status: :ok, json: { attempted_answer: @attempted_answer, questions: @question_with_options, quiz: @quiz}
+    render status: :ok, json: { attempted_answer: @attempted_answer, questions: @question_with_options, quiz: @quiz, attempt: @attempt}
   end
 
 

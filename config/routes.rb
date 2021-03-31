@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   resources :public, param: :slug, only: [:show] do 
     resources :attempts, except: [:edit, :destroy]
   end
+  
+  resources :reports, only: [:index]
 
   root "home#index"
   get '*path', to: 'home#index', via: :all

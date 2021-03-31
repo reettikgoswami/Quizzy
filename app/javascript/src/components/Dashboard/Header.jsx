@@ -29,6 +29,11 @@ function Header(props) {
             </Link>
 
             <div className="flex items-center">
+              <div className="flex items-center justify-end">
+                <Link to="/report">
+                  <div className="mr-6">Reports</div>
+                </Link>
+              </div>
               <div className="mr-6">
                 {currentUser &&
                   `${currentUser.first_name} ${currentUser.last_name}`}
