@@ -23,7 +23,7 @@ class QuizTest < ActiveSupport::TestCase
   def test_quiz_name_should_be_present 
     @quiz.name = nil
     assert_not @quiz.valid?
-    assert_equal @quiz.errors.full_messages, ["Name can't be blank", "Slug can't be blank"]
+    assert_equal @quiz.errors.full_messages, ["Name can't be blank"]
   end
 
 end

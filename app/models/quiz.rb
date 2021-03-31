@@ -1,24 +1,22 @@
 # frozen_string_literal: true
 
 class Quiz < ApplicationRecord
-  has_many :questions, dependent: :destroy
   belongs_to :user 
+  has_many :questions, dependent: :destroy
+  has_many :attempts, dependent: :destroy
 
   default_scope -> { order(created_at: :desc) }
   
   validates :name, presence: true  
   validates :user_id , presence: true 
-  validates :slug, presence: true, uniqueness: true 
-  validates :is_published, default: false 
+  validates :slug, uniqueness: true, allow_nil: true 
   
-  before_validation :generate_slug 
-
   def publish 
-    self.is_published = true    
+    generate_slug
   end 
 
   def unpublish 
-    self.is_published = false
+    self.slug = nil
   end
 
   private

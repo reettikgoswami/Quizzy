@@ -16,7 +16,7 @@ function Question(props) {
       Toastr.success(response.data.success);
       history.push(`/dashboard/quizzes/${quizId}`);
     } catch (error) {
-      Toastr.error(error.response.data.errors[0]);
+      logger.error(error);
     } finally {
       setLoading(false);
     }
