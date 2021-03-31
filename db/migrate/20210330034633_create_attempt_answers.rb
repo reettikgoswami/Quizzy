@@ -7,5 +7,6 @@ class CreateAttemptAnswers < ActiveRecord::Migration[6.0]
 
       t.timestamps
     end
+    add_index :attempt_answers, [:attempt_id, :question_id], unique: true
   end
 end

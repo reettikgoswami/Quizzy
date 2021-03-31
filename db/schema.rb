@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 2021_03_30_034633) do
     t.integer "option_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["attempt_id", "question_id"], name: "index_attempt_answers_on_attempt_id_and_question_id", unique: true
     t.index ["attempt_id"], name: "index_attempt_answers_on_attempt_id"
     t.index ["option_id"], name: "index_attempt_answers_on_option_id"
     t.index ["question_id"], name: "index_attempt_answers_on_question_id"
