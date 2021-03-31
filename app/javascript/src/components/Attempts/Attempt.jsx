@@ -12,6 +12,7 @@ import AttemptQuiz from "./AttemptQuiz";
 function Attempts(props) {
   const [loading, setLoading] = useState(false);
   const [isValidUrl, setIsValidUrl] = useState(false);
+  const [quiz, setQuiz] = useState({});
   const [user, setUser] = useState({});
   const [attemptObject, setAttemptObject] = useState({});
   const [pageNo, setPageNo] = useState(1);
@@ -21,7 +22,8 @@ function Attempts(props) {
   const checkValidUrl = async () => {
     try {
       setLoading(true);
-      await attemptApi.isUrlValid(slug);
+      const response = await attemptApi.isUrlValid(slug);
+      setQuiz(response.data.quiz);
       setIsValidUrl(true);
     } catch (error) {
       if (error.response.status == 403) {
@@ -65,6 +67,7 @@ function Attempts(props) {
           MoveToNextPage={MoveToNextPage}
           setAttemptObject={setAttemptObject}
           setUser={setUser}
+          quiz={quiz}
         />
       );
     case 2:

@@ -5,7 +5,7 @@ class AttemptsController < ApplicationController
 
   def index 
     if @quiz.present?
-      render status: :ok, json: { success: "Url is accessable" }
+      render status: :ok, json: { success: "Url is accessable" , quiz: @quiz}
     else 
     render :json => {:error => "Quiz not published!"}.to_json, status: :forbidden
     end

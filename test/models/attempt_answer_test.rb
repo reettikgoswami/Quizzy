@@ -2,7 +2,7 @@ require 'test_helper'
 
 class AttemptAnswerTest < ActiveSupport::TestCase
   def setup 
-    @user = User.create(first_name: "sam", last_name: "Smith", email: "samsmith@example.com", password: 'welcome', password_confirmation: 'welcome',role: "administrator")
+    @user = User.create(first_name: "sam", last_name: "Smith", email: "samsmith@example.com", password: 'welcome', password_confirmation: 'welcome')
 
     @quiz = @user.quizzes.build(name: "Solar System Quiz")
     @quiz.save

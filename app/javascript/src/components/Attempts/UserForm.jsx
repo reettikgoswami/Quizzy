@@ -11,7 +11,7 @@ function UserForm(props) {
   const [lastName, setLastName] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const { MoveToNextPage, slug, setUser, setAttemptObject } = props;
+  const { MoveToNextPage, slug, setUser, setAttemptObject, quiz } = props;
 
   const buildUserPayload = () => {
     return {
@@ -65,7 +65,7 @@ function UserForm(props) {
   return (
     <div className="max-w-md mx-auto shadow-xl rounded my-8">
       <h2 className="text-xl text-center font-extrabold font-serif text-green-700">
-        welcome to Solar System Quiz
+        welcome to {quiz.name}
       </h2>
       <div className="pt-8 pb-16">
         <div className="w-4/5 mx-auto">
@@ -115,7 +115,6 @@ function UserForm(props) {
               <button
                 className="rounded bg-blue-500 hover:bg-blue-600 py-2 px-4 text-white"
                 type="submit"
-                // onClick={MoveToNextPage}
                 disabled={loading}
               >
                 Next
