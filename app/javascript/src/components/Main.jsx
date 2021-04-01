@@ -14,6 +14,7 @@ import Quiz from "components/Quiz/Quiz";
 import QuestionForm from "components/Quiz/QuestionForm";
 import AttemptQuiz from "components/Attempts/Attempt";
 import Report from "components/Report";
+import ReportDownload from "components/Report/ReportDownload";
 import Loading from "./common/Loading";
 
 const Main = props => {
@@ -77,6 +78,12 @@ const Main = props => {
               fetchCurrentUser={fetchCurrentUser}
             />
           )}
+        />
+        <PrivateRoute
+          path="/report/download"
+          redirectRoute="/login"
+          condition={authenticated}
+          component={() => <ReportDownload />}
         />
 
         <PrivateRoute

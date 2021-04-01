@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import reportApi from "apis/report";
@@ -11,24 +11,11 @@ function Report(props) {
   const [loading, setLoading] = useState(true);
   const [attemptResult, setAttemptResult] = useState([]);
 
-  const loadAttemptResult = attempts => {
-    const attemptTableData = attempts.map(({ attempt, quiz, user }) => {
-      return {
-        quizName: quiz.name,
-        userName: user.first_name + " " + user.last_name,
-        email: user.email,
-        correctAnswers: attempt.correct_answer_count,
-        incorrectAnswers: attempt.incorrect_answer_count,
-      };
-    });
-    setAttemptResult(attemptTableData);
-  };
-
   const fetchAttemptResult = async () => {
     try {
       setLoading(true);
       const response = await reportApi.getReport();
-      loadAttemptResult(response.data.attempt);
+      setAttemptResult(response.data.report);
     } catch (error) {
       logger.error(error);
     } finally {
@@ -55,7 +42,7 @@ function Report(props) {
       <div className="w-4/5 mx-auto">
         <div className="flex items-center py-6 justify-between">
           <div className="text-2xl font-bold text-gray-700">Reports</div>
-          <Link to="#">
+          <Link to="/report/download">
             <button className="rounded bg-blue-500 hover:bg-blue-600 py-1 px-3 text-white">
               Download
             </button>

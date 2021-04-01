@@ -8,11 +8,11 @@ export const QUIZ_LIST_COLUMNS = [
 export const REPORT_LIST_COLUMNS = [
   {
     Header: "Quiz Name",
-    accessor: "quizName",
+    accessor: "quiz_name",
   },
   {
     Header: "User Name",
-    accessor: "userName",
+    accessor: "user_name",
   },
   {
     Header: "Email",
@@ -20,10 +20,10 @@ export const REPORT_LIST_COLUMNS = [
   },
   {
     Header: "Correct Answers",
-    accessor: "correctAnswers",
+    accessor: "correct_answers",
   },
   {
     Header: "Incorrect Answers",
-    accessor: "incorrectAnswers",
+    accessor: "incorrect_answers",
   },
 ];
