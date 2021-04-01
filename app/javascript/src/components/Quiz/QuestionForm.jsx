@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 
 import Toastr from "common/Toastr";
 import questionApi from "apis/question";
+import Loading from "../common/Loading";
 
 function QuestionForm(props) {
   const [loading, setLoading] = useState(false);
@@ -144,7 +145,13 @@ function QuestionForm(props) {
   };
 
   if (loading) {
-    return <div>Loading</div>;
+    return (
+      <div className="w-full">
+        <div className="w-40 m-40 mx-auto">
+          <Loading />
+        </div>
+      </div>
+    );
   }
 
   return (

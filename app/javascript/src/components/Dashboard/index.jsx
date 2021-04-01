@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import quizApi from "apis/quiz";
 import BasicTable from "../common/BasicTable";
 import ActionButtons from "./ActionButtons";
+import Loading from "../common/Loading";
 import { QUIZ_LIST_COLUMNS } from "utils/constant";
 
 function Dashboard(props) {
@@ -35,14 +36,20 @@ function Dashboard(props) {
     );
   };
 
-  if (loading) {
-    return <div>loading</div>;
-  }
   const generateRedirectUrl = ({ id }) => {
     if (id) {
       return `/dashboard/quizzes/${id}`;
     }
   };
+  if (loading) {
+    return (
+      <div className="w-full">
+        <div className="w-40 m-40 mx-auto">
+          <Loading />
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="bg-gray-100 min-h-screen">
       <div className="w-4/5 mx-auto">

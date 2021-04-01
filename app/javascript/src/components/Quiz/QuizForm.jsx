@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
-import Toastr from "common/Toastr";
 
+import Toastr from "common/Toastr";
+import Loading from "../common/Loading";
 import quizApi from "apis/quiz";
 
 function QuizForm(props) {
@@ -70,7 +71,13 @@ function QuizForm(props) {
   };
 
   if (loading) {
-    return <div>loading</div>;
+    return (
+      <div className="w-full">
+        <div className="w-40 m-40 mx-auto">
+          <Loading />
+        </div>
+      </div>
+    );
   }
 
   return (

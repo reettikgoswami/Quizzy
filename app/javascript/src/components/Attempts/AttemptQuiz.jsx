@@ -4,6 +4,7 @@ import Question from "./Question";
 
 import attemptApi from "apis/attempt";
 import Toastr from "common/Toastr";
+import Loading from "../common/Loading";
 
 function AttemptQuiz(props) {
   const [loading, setLoading] = useState(false);
@@ -66,7 +67,13 @@ function AttemptQuiz(props) {
   }, []);
 
   if (loading) {
-    return <div>loading</div>;
+    return (
+      <div className="w-full">
+        <div className="w-40 m-40 mx-auto">
+          <Loading />
+        </div>
+      </div>
+    );
   }
 
   return (

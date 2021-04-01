@@ -5,6 +5,8 @@ import reportApi from "apis/report";
 import BasicTable from "../common/BasicTable";
 import { REPORT_LIST_COLUMNS } from "utils/constant";
 
+import Loading from "../common/Loading";
+
 function Report(props) {
   const [loading, setLoading] = useState(true);
   const [attemptResult, setAttemptResult] = useState([]);
@@ -39,7 +41,13 @@ function Report(props) {
   }, []);
 
   if (loading) {
-    return <div>Loading</div>;
+    return (
+      <div className="w-full">
+        <div className="w-40 m-40 mx-auto">
+          <Loading />
+        </div>
+      </div>
+    );
   }
 
   return (

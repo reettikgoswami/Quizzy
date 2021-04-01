@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 import authenticationApi from "apis/authentication";
 import Toastr from "common/Toastr";
+import Loading from "../common/Loading";
 
 const Login = props => {
   const [email, setEmail] = useState("");
@@ -25,6 +26,16 @@ const Login = props => {
       setLoading(false);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="w-full">
+        <div className="w-40 m-40 mx-auto">
+          <Loading />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-md mx-auto shadow-xl rounded my-8">

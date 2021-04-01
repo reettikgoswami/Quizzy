@@ -1,5 +1,7 @@
 import React, { useState, useEffect, Fragment } from "react";
+
 import attemptApi from "apis/attempt";
+import Loading from "../common/Loading";
 
 function Result(props) {
   const [loading, setLoading] = useState(false);
@@ -50,7 +52,13 @@ function Result(props) {
   }, []);
 
   if (loading) {
-    return <div>loading</div>;
+    return (
+      <div className="w-full">
+        <div className="w-40 m-40 mx-auto">
+          <Loading />
+        </div>
+      </div>
+    );
   }
 
   const optionClass = (optionId, isCorrect, submittedOption) => {

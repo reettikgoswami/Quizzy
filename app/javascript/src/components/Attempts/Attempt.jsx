@@ -8,6 +8,7 @@ import Toastr from "common/Toastr";
 import UserForm from "./UserForm";
 import Result from "./Result";
 import AttemptQuiz from "./AttemptQuiz";
+import Loading from "../common/Loading";
 
 function Attempts(props) {
   const [loading, setLoading] = useState(false);
@@ -49,8 +50,15 @@ function Attempts(props) {
   }, []);
 
   if (loading) {
-    return <div>loading</div>;
+    return (
+      <div className="w-full">
+        <div className="w-40 m-40 mx-auto">
+          <Loading />
+        </div>
+      </div>
+    );
   }
+
   if (!isValidUrl) {
     return (
       <div className="font-bold font-serif text-xl text-center mt-32">

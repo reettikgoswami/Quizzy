@@ -4,6 +4,7 @@ import { HiOutlineMail, CgProfile } from "react-icons/all";
 
 import attemptApi from "apis/attempt";
 import Toastr from "common/Toastr";
+import Loading from "../common/Loading";
 
 function UserForm(props) {
   const [email, setEmail] = useState("");
@@ -60,8 +61,15 @@ function UserForm(props) {
   };
 
   if (loading) {
-    return <div>Loading</div>;
+    return (
+      <div className="w-full">
+        <div className="w-40 m-40 mx-auto">
+          <Loading />
+        </div>
+      </div>
+    );
   }
+
   return (
     <div className="max-w-md mx-auto shadow-xl rounded my-8">
       <h2 className="text-xl text-center font-extrabold font-serif text-green-700">
