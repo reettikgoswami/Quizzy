@@ -1,4 +1,3 @@
-require 'csv'
 class ReportsController < ApplicationController
   skip_before_action :logged_in_user
   before_action :generate_report, only: [:index, :create,]
@@ -8,9 +7,11 @@ class ReportsController < ApplicationController
   end
   
   def create
-    ReportJob.perform_later(@reports)
-    sleep 11
-    render status: :ok, json: { message: "Your report is prepared successfully"}
+    render status: :ok, json: { success: "Your report is prepared successfully" }
+  end
+
+  def show 
+    render status: 404, json: { error: "Report not found" }
   end
 
   private
@@ -33,19 +34,5 @@ class ReportsController < ApplicationController
       @reports.push(report)
     end
   end
-
-
-
-  # def generate_csv(reports)
-  #   attributes = ["Quiz Name", "User Name", "Email", "Correct Answers", "Incorrect Answers"]
-  #   CSV.generate(headers: true) do |csv| 
-  #     csv << attributes 
-    
-  #     reports.each do |report| 
-  #       single_row = [report[:quiz].name, report[:user].full_name, report[:user].email, report[:attempt].correct_answer_count, report[:attempt].incorrect_answer_count]
-  #       csv << single_row
-  #     end
-  #    end 
-  # end
 
 end

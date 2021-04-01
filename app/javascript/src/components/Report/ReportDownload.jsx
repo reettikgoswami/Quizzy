@@ -5,17 +5,17 @@ import Spinner from "../common/Spinner";
 function ReportDownload(props) {
   const [loading, setLoading] = useState(true);
 
-  // const fetchAttemptResult = async () => {
-  //   try {
-  //     setLoading(true);
-  //     const response = await reportApi.getReport();
-  //     loadAttemptResult(response.data.attempt);
-  //   } catch (error) {
-  //     logger.error(error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+  const downloadReport = async () => {
+    try {
+      setLoading(true);
+      const response = await reportApi.downloadReport();
+      // console.log(response);
+    } catch (error) {
+      logger.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     setTimeout(() => {

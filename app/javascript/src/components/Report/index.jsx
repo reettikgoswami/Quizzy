@@ -23,6 +23,15 @@ function Report(props) {
     }
   };
 
+  const generateReport = async () => {
+    try {
+      const response = await reportApi.generateReport();
+      // console.log(response);
+    } catch (error) {
+      logger.error(error);
+    }
+  };
+
   useEffect(() => {
     fetchAttemptResult();
   }, []);
@@ -43,7 +52,10 @@ function Report(props) {
         <div className="flex items-center py-6 justify-between">
           <div className="text-2xl font-bold text-gray-700">Reports</div>
           <Link to="/report/download">
-            <button className="rounded bg-blue-500 hover:bg-blue-600 py-1 px-3 text-white">
+            <button
+              className="rounded bg-blue-500 hover:bg-blue-600 py-1 px-3 text-white"
+              onClick={generateReport}
+            >
               Download
             </button>
           </Link>
