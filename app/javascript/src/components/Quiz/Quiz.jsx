@@ -4,6 +4,7 @@ import { Link, withRouter } from "react-router-dom";
 import quizApi from "apis/quiz";
 import Toastr from "common/Toastr";
 import Question from "./Question";
+import Loading from "../common/Loading";
 
 function Quiz(props) {
   const [loading, setLoading] = useState(false);
@@ -53,7 +54,13 @@ function Quiz(props) {
   }, []);
 
   if (loading) {
-    return <div>Loading</div>;
+    return (
+      <div className="w-full">
+        <div className="w-40 m-40 mx-auto">
+          <Loading />
+        </div>
+      </div>
+    );
   }
 
   return (

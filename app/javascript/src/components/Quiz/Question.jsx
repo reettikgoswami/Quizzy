@@ -3,6 +3,7 @@ import { Link, withRouter } from "react-router-dom";
 
 import questionApi from "apis/question";
 import Toastr from "common/Toastr";
+import Loading from "../common/Loading";
 
 function Question(props) {
   const [loading, setLoading] = useState(false);
@@ -23,7 +24,13 @@ function Question(props) {
   };
 
   if (loading) {
-    return <div>loading</div>;
+    return (
+      <div className="w-full">
+        <div className="w-40 m-40 mx-auto">
+          <Loading />
+        </div>
+      </div>
+    );
   }
   return (
     <div className="w-6/12 h-56 mx-auto py-4">

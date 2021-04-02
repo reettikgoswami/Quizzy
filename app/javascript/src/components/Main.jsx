@@ -14,6 +14,8 @@ import Quiz from "components/Quiz/Quiz";
 import QuestionForm from "components/Quiz/QuestionForm";
 import AttemptQuiz from "components/Attempts/Attempt";
 import Report from "components/Report";
+import ReportDownload from "components/Report/ReportDownload";
+import Loading from "./common/Loading";
 
 const Main = props => {
   const [loading, setLoading] = useState(true);
@@ -43,7 +45,13 @@ const Main = props => {
   }, []);
 
   if (loading) {
-    return <div className="h-screen">loading</div>;
+    return (
+      <div className="w-full">
+        <div className="w-40 m-40 mx-auto">
+          <Loading />
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -70,6 +78,12 @@ const Main = props => {
               fetchCurrentUser={fetchCurrentUser}
             />
           )}
+        />
+        <PrivateRoute
+          path="/report/download"
+          redirectRoute="/login"
+          condition={authenticated}
+          component={() => <ReportDownload />}
         />
 
         <PrivateRoute
