@@ -26,7 +26,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 # Background jobs
 gem "sidekiq"
 
-gem 'caxlsx', '~> 3.1'
+gem 'caxlsx'
 
 gem 'bundler-audit', require: false
 gem 'ruby_audit', require: false

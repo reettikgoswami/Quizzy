@@ -6,20 +6,20 @@ class ReportsController < ApplicationController
   end
   
   def create
-    # if report_exists?
-    #   File.delete("public/report.xlsx")
-    # end
+    if report_exists?
+      File.delete("public/report.xlsx")
+    end
     ReportDownloadJob.perform_later(@reports)
-    sleep 11
+    # sleep 11
     render status: :ok, json: { success: "Your report is prepared successfully" }
   end
 
   def show 
-    # if report_exists?
+    if report_exists?
       send_file "public/report.xlsx", type: "application/xlsx", disposition: "attachment"
-    # else
-    #   render status: 404, json: { error: "Report not found" }
-    # end
+    else
+      render status: 404, json: { error: "Report not found" }
+    end
   end
 
   private

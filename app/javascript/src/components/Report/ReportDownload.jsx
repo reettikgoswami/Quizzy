@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
+import FileSaver from "file-saver";
 
 import reportApi from "apis/report";
 import Spinner from "../common/Spinner";
@@ -8,12 +9,14 @@ function ReportDownload(props) {
 
   const downloadReport = async () => {
     try {
-      setLoading(true);
       const response = await reportApi.downloadReport();
+      var blob = new Blob([response.data], {
+        type:
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+      FileSaver.saveAs(blob, "report.xlsx");
     } catch (error) {
       logger.error(error);
-    } finally {
-      setLoading(false);
     }
   };
 

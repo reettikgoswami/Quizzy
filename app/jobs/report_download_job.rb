@@ -13,10 +13,10 @@ class ReportDownloadJob < ApplicationJob
     Axlsx::Package.new do |p|
 
       p.workbook.add_worksheet(name: "Report") do |sheet|      
-        sheet.add_row["Quiz Name", "User Name", "Email", "Correct Answers", "Incorrect Answers"]
+        sheet.add_row ["Quiz Name", "User Name", "Email", "Correct Answers", "Incorrect Answers"]
 
         reports.each do |report| 
-          sheet.add_row[report[:quiz_name], report[:user_name], report[:email], report[:correct_answers], report[:incorrect_answers]]
+          sheet.add_row [report[:quiz_name], report[:user_name], report[:email], report[:correct_answers], report[:incorrect_answers]]
         end
       end
 
