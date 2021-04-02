@@ -1,5 +1,4 @@
 class ReportsController < ApplicationController
-  skip_before_action :logged_in_user
   before_action :generate_report, only: [:index, :create,]
 
   def index 
@@ -7,11 +6,20 @@ class ReportsController < ApplicationController
   end
   
   def create
+    # if report_exists?
+    #   File.delete("public/report.xlsx")
+    # end
+    ReportDownloadJob.perform_later(@reports)
+    sleep 11
     render status: :ok, json: { success: "Your report is prepared successfully" }
   end
 
   def show 
-    render status: 404, json: { error: "Report not found" }
+    # if report_exists?
+      send_file "public/report.xlsx", type: "application/xlsx", disposition: "attachment"
+    # else
+    #   render status: 404, json: { error: "Report not found" }
+    # end
   end
 
   private
@@ -35,4 +43,7 @@ class ReportsController < ApplicationController
     end
   end
 
+  def report_exists? 
+    File.exist?("./public/report.xlsx")
+  end
 end

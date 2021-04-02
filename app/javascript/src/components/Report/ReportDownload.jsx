@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 
+import reportApi from "apis/report";
 import Spinner from "../common/Spinner";
 
 function ReportDownload(props) {
@@ -9,7 +10,6 @@ function ReportDownload(props) {
     try {
       setLoading(true);
       const response = await reportApi.downloadReport();
-      // console.log(response);
     } catch (error) {
       logger.error(error);
     } finally {
@@ -40,7 +40,10 @@ function ReportDownload(props) {
     return (
       <Fragment>
         <div className="mt-10 w-20 mx-auto text-center">
-          <button className="rounded bg-blue-500 hover:bg-blue-600 py-1 px-3 text-white">
+          <button
+            className="rounded bg-blue-500 hover:bg-blue-600 py-1 px-3 text-white"
+            onClick={downloadReport}
+          >
             Download
           </button>
         </div>

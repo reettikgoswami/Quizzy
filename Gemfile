@@ -23,6 +23,11 @@ gem 'bcrypt', '~> 3.1.7'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 
+# Background jobs
+gem "sidekiq"
+
+gem 'caxlsx', '~> 3.1'
+
 gem 'bundler-audit', require: false
 gem 'ruby_audit', require: false
 
